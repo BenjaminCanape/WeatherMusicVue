@@ -1,13 +1,13 @@
 <template>
-  <span v-if="!isLoading"> 
-    <img :src="iconUrl" /> 
-    {{ weather }} 
+  <span v-if="!isLoading">
+    <img :src="iconUrl" />
+    {{ weather }}
   </span>
 </template>
 
 <script>
 import getWeatherResponseFromAPI from "../external/weatherApi";
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Weather",
@@ -35,10 +35,10 @@ export default {
         });
       }
     },
-     ...mapActions(['setWeather'])
+    ...mapActions(["setWeather"])
   },
   computed: {
-     ...mapState(['weather'])
+    ...mapState(["weather"])
   },
   mounted() {
     this.isLoading = true;
@@ -48,5 +48,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>
