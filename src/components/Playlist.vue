@@ -9,20 +9,16 @@
   />
 </template>
 
-<script>
-export default {
-  name: "Playlist",
-  props: {
-    id: {
-      type: Number,
-      required: true
-    }
-  },
-  data() {
-    return {
-      playerUrl: String
-    };
-  },
+<script lang="ts">
+import { Vue, Options } from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
+
+@Options({})
+export default class Playlist extends Vue {
+  @Prop({ required: true,type: Number }) readonly id!: Number;
+
+  private playerUrl: String = "";
+
   created() {
     this.playerUrl =
       "https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=true&width=700&height=350&color=EF5466&layout=&size=medium&type=playlist&id=" +

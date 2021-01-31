@@ -5,41 +5,41 @@
   </span>
 </template>
 
-<script>
+<script lang="ts">
 import getWeatherResponseFromAPI from "../external/weatherApi";
-import { mapState, mapActions } from "vuex";
+import { Vue, Options } from 'vue-class-component';
+import { namespace } from 'vuex-class';
+const weatherStore = namespace('weather');
 
-export default {
-  name: "Weather",
-  data() {
-    return {
-      latitude: Number,
-      longitude: Number,
-      isLoading: Boolean,
-      iconUrl: String
-    };
-  },
-  methods: {
-    getLocalisation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-          this.latitude = parseFloat(position.coords.latitude);
-          this.longitude = parseFloat(position.coords.longitude);
-          getWeatherResponseFromAPI(this.latitude + "," + this.longitude).then(
-            data => {
-              this.iconUrl = data.current.condition.icon;
-              this.setWeather(data.current.condition.text);
-              this.isLoading = false;
-            }
-          );
-        });
-      }
-    },
-    ...mapActions(["setWeather"])
-  },
-  computed: {
-    ...mapState(["weather"])
-  },
+@Options({})
+export default class Weather extends Vue {
+  private latitude: Number = 0;
+  private longitude: Number = 0;
+  private isLoading: Boolean = false;
+  private iconUrl: String = "";
+
+  @weatherStore.State
+  public weather!: string;
+
+  @weatherStore.Action
+  public updateWeather!: (weather: string) => void;
+
+  public getLocalisation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.latitude = parseFloat(position.coords.latitude.toString());
+        this.longitude = parseFloat(position.coords.longitude.toString());
+        getWeatherResponseFromAPI(this.latitude, this.longitude).then(
+          data => {
+            this.iconUrl = data.current.condition.icon;
+            this.updateWeather(data.current.condition.text);
+            this.isLoading = false;
+          }
+        );
+      });
+    }
+  }
+
   mounted() {
     this.isLoading = true;
     this.getLocalisation();

@@ -2,43 +2,44 @@
   <Playlist v-for="playlist in playlists" :key="playlist" :id="playlist" />
 </template>
 
-<script>
+<script lang="ts">
 import Playlist from "./Playlist.vue";
 import searchPlaylist from "../external/deezerApi";
-import { mapState } from "vuex";
+import { Vue, Options} from 'vue-class-component';
+import { namespace } from 'vuex-class';
+const weatherStore = namespace('weather');
 
-export default {
-  name: "MusicList",
+@Options({
   components: {
     Playlist
-  },
-  data() {
-    return {
-      playlists: Array
-    };
-  },
-  computed: {
-    ...mapState(["weather"])
-  },
-  methods: {
-    getPlaylists() {
-      this.playlists = [];
-      searchPlaylist(this.weather).then(data => {
-        data.data.forEach(playlist => {
-          this.playlists.push(playlist.id);
-        });
+  }
+})
+export default class MusicList extends Vue {
+  private playlists: Array<object> = [];
+  private unsubscribeStoreFunction!: () => void;
+
+  @weatherStore.State
+  public weather!: string;
+
+  private getPlaylists() {
+    this.playlists = [];
+    searchPlaylist(this.weather).then(data => {
+      data.data.forEach((playlist: Playlist) => {
+        this.playlists.push(playlist.id);
       });
-    }
-  },
+    });
+  }
+  
   created() {
-    this.unsubscribe = this.$store.subscribe(mutation => {
-      if (mutation.type === "SET_WEATHER") {
+    this.unsubscribeStoreFunction = this.$store.subscribe((mutation: { type: string; }) => {
+      if (mutation.type === "weather/setWeather") {
         this.getPlaylists();
       }
     });
-  },
+  }
+
   beforeUnmount() {
-    this.unsubscribe();
+    this.unsubscribeStoreFunction();
   }
 };
 </script>
