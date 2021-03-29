@@ -1,7 +1,7 @@
-const BASE_URL = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/";
+const BASE_URL = "http://localhost:3000";
 
-export default function searchPlaylist(query: string) {
+export default function searchPlaylist(weatherName: string) {
   return fetch(
-    BASE_URL + "search/playlist?limit=10&q=" + query
+    BASE_URL + "/getPlaylist?weatherName=" + weatherName
   ).then(response => response.json());
 }

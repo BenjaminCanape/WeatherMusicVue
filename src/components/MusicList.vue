@@ -1,5 +1,7 @@
 <template>
-  <Playlist v-for="playlist in playlists" :key="playlist" :id="playlist" />
+  <div class="playlist">
+    <Playlist v-for="playlist in playlists" :key="playlist" :id="playlist" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -45,4 +47,8 @@ export default class MusicList extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+  .playlist {
+    flex: 1
+  }
+</style>

@@ -5,12 +5,21 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node src/proxy.js & npm run serve",
+    "heroku-postbuild": "npm install --only=dev && npm run build"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
     "core-js": "^3.8.3",
+    "cors-anywhere": "^0.4.3",
+    "express": "^4.17.1",
+    "request": "^2.88.2",
+    "serverless-http": "^2.7.0",
     "vue": "^3.0.5",
     "vue-class-component": "^8.0.0-rc.1",
+    "vue-material": "^1.0.0-beta-15",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0-rc.2",
