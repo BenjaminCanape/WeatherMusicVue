@@ -1,6 +1,10 @@
 <template>
   <div class="playlist">
-    <Playlist v-for="playlist in playlists" :key="playlist" :id="playlist" />
+    <carousel class="story-carousel story-carousel--colors">
+      <slide class="story-carousel__slide" v-for="playlist in playlists" :key="playlist" >
+        <Playlist :id="playlist" />
+      </slide>
+    </carousel>
   </div>
 </template>
 
@@ -9,11 +13,16 @@ import Playlist from "./Playlist.vue";
 import searchPlaylist from "../external/deezerApi";
 import { Vue, Options} from 'vue-class-component';
 import { namespace } from 'vuex-class';
+import { Carousel, Slide } from 'vue-snap'
+import 'vue-snap/dist/vue-snap.css'
+
 const weatherStore = namespace('weather');
 
 @Options({
   components: {
-    Playlist
+    Playlist,
+    Carousel,
+    Slide
   }
 })
 export default class MusicList extends Vue {
