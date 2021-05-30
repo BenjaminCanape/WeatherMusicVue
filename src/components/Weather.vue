@@ -1,7 +1,9 @@
 <template>
   <span v-if="!isLoading">
     <img :src="iconUrl" />
-    {{ weather }}
+    <p>{{ weather }}</p>
+    <p>Temperature: {{ temperature }} °C</p>
+    <p>Wind: {{ wind }} km/h</p>
   </span>
 </template>
 
@@ -17,6 +19,8 @@ export default class Weather extends Vue {
   private longitude: Number = 0;
   private isLoading: Boolean = false;
   private iconUrl: String = "";
+  private wind: number = 0;
+  private temperature: number = 0;
 
   @weatherStore.State
   public weather!: string;
@@ -31,6 +35,9 @@ export default class Weather extends Vue {
         this.longitude = parseFloat(position.coords.longitude.toString());
         getWeatherResponseFromAPI(this.latitude, this.longitude).then(
           data => {
+            console.log(data.current);
+            this.wind = data.current.wind_kph;
+            this.temperature = data.current.temp_c;
             this.iconUrl = data.current.condition.icon;
             this.updateWeather(data.current.condition.text);
             this.isLoading = false;
