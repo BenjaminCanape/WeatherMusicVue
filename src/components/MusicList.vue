@@ -1,6 +1,6 @@
 <template>
   <div class="playlist">
-    <carousel class="story-carousel story-carousel--colors">
+    <carousel class="story-carousel story-carousel--colors" v-if="playlists.length">
       <slide class="story-carousel__slide" v-for="playlist in playlists" :key="playlist" >
         <Playlist :id="playlist" />
       </slide>
