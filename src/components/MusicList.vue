@@ -13,7 +13,7 @@ import Playlist from "./Playlist.vue";
 import searchPlaylist from "../external/deezerApi";
 import { Vue, Options} from 'vue-class-component';
 import { namespace } from 'vuex-class';
-import { Carousel, Slide } from 'vue-snap'
+import { Carousel, Slide } from 'vue-snap';
 import 'vue-snap/dist/vue-snap.css'
 
 const weatherStore = namespace('weather');
